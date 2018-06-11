@@ -22,7 +22,11 @@ module.exports = {
     resolve:{
         alias:{
             components:path.resolve(__dirname, 'src/components'),
-            containers:path.resolve(__dirname, 'src/containers')
+            containers:path.resolve(__dirname, 'src/containers'),
+            util:path.resolve(__dirname, 'src/util'),
+            service:path.resolve(__dirname, 'src/service')
+            
+            
             
         }
     },
@@ -100,6 +104,17 @@ module.exports = {
             port:8086,
             historyApiFallback:{
                 index: '/dist/index.html'
+            },
+            //域名劫持 做跨域处理
+            proxy:{
+                '/manage':{
+                    target:'http://admintest.happymmall.com',
+                    changeOrigin: true
+                },
+                '/user/logout.do':{
+                    target:'http://admintest.happymmall.com',
+                    changeOrigin: true
+                }
             }
           }
 };
