@@ -11,12 +11,13 @@ const path              = require('path');
 
 // 环境变量, dev, (test), online
 var WEBPACK_ENV         = process.env.WEBPACK_ENV || 'dev';
+console.log(WEBPACK_ENV)
 
 module.exports = {
     entry: './src/app.jsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/dist/',
+        publicPath: WEBPACK_ENV === 'dev' ? '/dist/': '//s.jianliwu.com/admin-ve-fe/dist/',
         filename: 'js/app.js'
     },
     resolve:{
@@ -24,10 +25,7 @@ module.exports = {
             components:path.resolve(__dirname, 'src/components'),
             containers:path.resolve(__dirname, 'src/containers'),
             util:path.resolve(__dirname, 'src/util'),
-            service:path.resolve(__dirname, 'src/service')
-            
-            
-            
+            service:path.resolve(__dirname, 'src/service'),   
         }
     },
     module: {
