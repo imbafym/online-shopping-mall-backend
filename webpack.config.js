@@ -1,14 +1,32 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const webpack = require('webpack')
+
+
+
+
+
+
+const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
+const webpack           = require('webpack'); //to access built-in plugins
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path              = require('path');
+
+// 环境变量, dev, (test), online
+var WEBPACK_ENV         = process.env.WEBPACK_ENV || 'dev';
+console.log(WEBPACK_ENV)
 
 module.exports = {
     entry: './src/app.jsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/dist/',
+        publicPath: WEBPACK_ENV === 'dev' ? '/dist/': '//s.jianliwu.com/admin-ve-fe/dist/',
         filename: 'js/app.js'
+    },
+    resolve:{
+        alias:{
+            components:path.resolve(__dirname, 'src/components'),
+            containers:path.resolve(__dirname, 'src/containers'),
+            util:path.resolve(__dirname, 'src/util'),
+            service:path.resolve(__dirname, 'src/service'),   
+        }
     },
     module: {
         rules: [
@@ -66,11 +84,12 @@ module.exports = {
         ]
     },
     plugins: [
-        //独立html文件
+        //处理html文件
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: './src/index.html',
+            favicon: './favicon.ico'
         }),
-        //独立css文件
+        //处理css文件
         new ExtractTextPlugin("css/[name].css"),
         //提出公共模块
         new webpack.optimize.CommonsChunkPlugin({
@@ -80,6 +99,20 @@ module.exports = {
     ],
     devServer: {
             // contentBase: './dist'
-            port:8086
+            port:8086,
+            historyApiFallback:{
+                index: '/dist/index.html'
+            },
+            //域名劫持 做跨域处理
+            proxy:{
+                '/manage':{
+                    target:'http://admintest.happymmall.com',
+                    changeOrigin: true
+                },
+                '/user/logout.do':{
+                    target:'http://admintest.happymmall.com',
+                    changeOrigin: true
+                }
+            }
           }
 };
