@@ -6,7 +6,7 @@ export default class MUtil {
     //encodeURIcomponent 处理特殊字符
     //跳转登录
     doLogin(){
-        windows.location.href = `./login?redirect=${encodeURIcomponent(window.location.pathname)}`
+        window.location.href = `./login?redirect=${encodeURIComponent(window.location.pathname)}`
     }
 
     //獲取url param
@@ -33,7 +33,9 @@ export default class MUtil {
     errorTips(errMsg){
         alert(errMsg || 'err exists')
     }
-
+    successTips(msg){
+        alert(msg || 'operation success')
+    }
     request(param) {
         return new Promise((resolve, reject) => {
             $.ajax({
