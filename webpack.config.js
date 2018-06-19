@@ -12,14 +12,14 @@ const path              = require('path');
 // 环境变量, dev, (test), online
 var WEBPACK_ENV         = process.env.WEBPACK_ENV || 'dev';
 
-const serverDomain = "ec2-52-65-38-213.ap-southeast-2.compute.amazonaws.com"
-console.log(WEBPACK_ENV)
+// const serverDomain = "ec2-52-65-38-213.ap-southeast-2.compute.amazonaws.com"
+// console.log(WEBPACK_ENV)
 
 module.exports = {
     entry: './src/app.jsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: WEBPACK_ENV === 'dev' ? '/dist/': `//${serverDomain}/admin-ve-fe/dist/`,
+        publicPath: WEBPACK_ENV === 'online' ? '//s.happymmall.com/admin-fe-v2/dist/' : '/dist/',
         filename: 'js/app.js'
     },
     resolve:{
